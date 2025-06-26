@@ -14,73 +14,73 @@ public class UserInterface {
     }
 
     public void start() {
-        // JSON’dan masrafları yükle
+        // Load expenses from JSON file
         String jsonPath = "jsonfiles/expenses.json";
         expenseService.loadExpensesFromJson(jsonPath);
-        System.out.println("📥 JSON dosyasından masraflar başarıyla yüklendi.");
-        System.out.println("💸 Masraf Takip Sistemine Hoş Geldiniz");
+        System.out.println("Expenses successfully loaded from JSON file.");
+        System.out.println("Welcome to the Expense Tracking System");
 
-        boolean devam = true;
+        boolean running = true;
 
-        while (devam) {
+        while (running) {
             System.out.println("\n-----------------------------");
-            System.out.println("1 - Masraf Ekle");
-            System.out.println("2 - Masrafları Listele");
-            System.out.println("3 - Masraf Sil (ID ile)");
-            System.out.println("4 - Masrafları Kategoriye Göre Listele");
-            System.out.println("5 - Masrafın Tutarını Değiştir (ID ile)");
-            System.out.println("0 - Çıkış");
-            System.out.print("Seçiminiz: ");
-            int secim = scanner.nextInt();
-            scanner.nextLine(); // dummy newline
+            System.out.println("1 - Add Expense");
+            System.out.println("2 - List All Expenses");
+            System.out.println("3 - Delete Expense (by ID)");
+            System.out.println("4 - List Expenses by Category");
+            System.out.println("5 - Update Expense Amount (by ID)");
+            System.out.println("0 - Exit");
+            System.out.print("Your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
 
-            switch (secim) {
+            switch (choice) {
                 case 1 -> addExpense();
                 case 2 -> listExpenses();
                 case 3 -> deleteExpense();
                 case 4 -> filterByCategory();
                 case 5 -> editAmount();
                 case 0 -> {
-                    devam = false;
-                    System.out.println("👋 Çıkış yapılıyor...");
+                    running = false;
+                    System.out.println("Exiting...");
                 }
-                default -> System.out.println("❌ Geçersiz seçim.");
+                default -> System.out.println("Invalid choice.");
             }
         }
     }
 
     private void addExpense() {
-        System.out.print("Kategori: ");
-        String kategori = scanner.nextLine();
-        System.out.print("Tutar (₺): ");
-        int tutar = scanner.nextInt();
-        scanner.nextLine();
-        expenseService.addExpense(kategori, tutar);
-        System.out.println("✅ Masraf eklendi.");
+        System.out.print("Category: ");
+        String category = scanner.nextLine();
+        System.out.print("Amount (₺): ");
+        int amount = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        expenseService.addExpense(category, amount);
+        System.out.println("✅ Expense added successfully.");
     }
 
     private void listExpenses() {
-        System.out.println("📋 Tüm Masraflar:");
+        System.out.println("📋 All Expenses:");
         expenseService.getExpenseList().forEach(System.out::println);
     }
 
     private void deleteExpense() {
-        System.out.print("Silinecek Masraf ID: ");
+        System.out.print("Enter Expense ID to delete: ");
         int id = scanner.nextInt();
         scanner.nextLine();
         expenseService.deleteExpense(id);
     }
 
     private void filterByCategory() {
-        System.out.print("Kategori: ");
+        System.out.print("Enter category to filter: ");
         String category = scanner.nextLine();
         expenseService.getExpensesByCategory(category).forEach(System.out::println);
     }
 
     private void editAmount() {
-        System.out.print("Id: ");
+        System.out.print("Enter Expense ID: ");
         int id = Integer.parseInt(scanner.nextLine());
-        System.out.print("Amount: ");
+        System.out.print("New Amount (₺): ");
         int amount = Integer.parseInt(scanner.nextLine());
         expenseService.updateExpenseAmount(id, amount);
     }

@@ -15,13 +15,13 @@ public class JsonReader {
 
         try (InputStream inputStream = JsonReader.class.getClassLoader().getResourceAsStream(resourcePath)) {
             if (inputStream == null) {
-                System.err.println("❌ Dosya bulunamadı: " + resourcePath);
+                System.err.println("File not found: " + resourcePath);
                 return List.of();
             }
 
             return mapper.readValue(inputStream, new TypeReference<List<Expense>>() {});
         } catch (IOException e) {
-            System.err.println("❌ Json okunurken hata oluştu: " + e.getMessage());
+            System.err.println("Error occurred while reading JSON: " + e.getMessage());
             return List.of();
         }
     }
