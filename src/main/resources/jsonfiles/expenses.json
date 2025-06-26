@@ -1,0 +1,6 @@
+[
+  {"category": "Food", "amount": 150},
+  {"category": "Transport", "amount": 80},
+  {"category": "Entertainment", "amount": 120},
+  {"category": "Bills", "amount": 200}
+]
